@@ -1,17 +1,19 @@
+import 'package:flutter/cupertino.dart';
+
 class MonstersModel{
   String ? category;
-  List<dynamic> ? common_locations;
+  List<CommonLocations> ? commonLocations;
   String ? description;
-  List<dynamic> ? drops;
+  //List<Drops> ? drops;
   String ? name;
   String ? image;
   int ? id;
 
   MonstersModel({
     this.category,
-    this.common_locations,
+    this.commonLocations,
     this.description,
-    this.drops,
+    //this.drops,
     this.id,
     this.image,
     this.name
@@ -19,12 +21,28 @@ class MonstersModel{
 
   factory MonstersModel.fromMapJson(Map<String, dynamic>data)=>MonstersModel(
     category: data['category'],
-    common_locations: data['common_locations'],
+    //commonLocations: data['common_locations'](data['common_locations']!=null)?.map((data)=>CommonLocations.fromMapJson(data)).toList().cast<CommonLocations>(),
     description: data['description'],
-    drops: data['drops'],
+    //drops: data['drops'](data['drops']!=null)?.map((data)=>Drops.fromMapJson(data)).toList().cast<Drops>(),
     id: data['id'],
     image: data['image'],
     name: data['name']
   );
+}
+
+class Drops {
+  String? drops;
+  Drops({this.drops});
+
+  factory Drops.fromMapJson(String data) =>Drops(
+    drops:  data);
+}
+
+class CommonLocations {
+  String? nameLocation;
+  CommonLocations({this.nameLocation});
+
+  factory CommonLocations.fromMapJson(String data) =>CommonLocations(
+    nameLocation: data);
 }
 

@@ -8,7 +8,6 @@ class MonstersProvider{
   Future<List<MonstersModel>> obtenerMonsters()async{
     List<MonstersModel> monsters = [];
     final response = await http.get(_url);
-
     List<dynamic> responseData = response.data['data']['monsters'];
     return responseData.map((data) => MonstersModel.fromMapJson(data)).toList();
   }
