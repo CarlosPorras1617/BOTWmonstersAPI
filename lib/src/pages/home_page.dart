@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:monsters_botw/src/models/monsters_model.dart';
 import 'package:monsters_botw/src/providers/monsters_provider.dart';
-import 'package:monsters_botw/src/providers/monsters_state.dart';
+
 
 class HomePage extends StatelessWidget {
   final monstersProvider = MonstersProvider();
