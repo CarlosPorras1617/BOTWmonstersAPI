@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:monsters_botw/src/models/monsters_model.dart';
 import 'package:monsters_botw/src/providers/monsters_provider.dart';
 
-
 class HomePage extends StatelessWidget {
   final monstersProvider = MonstersProvider();
   @override
@@ -25,31 +24,31 @@ class HomePage extends StatelessWidget {
               return Container(
                 height: double.infinity,
                 child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: monsters!.length,
-                itemBuilder: (BuildContext context, int i) {
-                  final monstersData = monsters[i];
-                  return Container(
-                    width: 360,
-                    decoration:
-                        BoxDecoration(color: Color.fromRGBO(170, 207, 193, 1)),
-                    child: Stack(
-                      children: [
-                        //_Fondo(),
-                        Center(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              _MonsterName(monstersData),
-                              _MonsterImage(monstersData),
-                            ],
+                  scrollDirection: Axis.horizontal,
+                  itemCount: monsters!.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    final monstersData = monsters[i];
+                    return Container(
+                      width: 360,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(170, 207, 193, 1)),
+                      child: Stack(
+                        children: [
+                          //_Fondo(),
+                          Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                _MonsterName(monstersData),
+                                _MonsterImage(monstersData),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               );
             },
           ),
@@ -82,7 +81,8 @@ class _CategoryName extends StatelessWidget {
       children: [
         Text(
           "Category:",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28.0),
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28.0),
         ),
         Text(
           _monstersData.category!,
@@ -122,7 +122,8 @@ class _MonsterName extends StatelessWidget {
       children: [
         Text(
           'Monster name:',
-          style: TextStyle(color:Colors.white, fontWeight: FontWeight.bold, fontSize: 28.0),
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28.0),
         ),
         SizedBox(
           height: 10.0,
@@ -131,6 +132,30 @@ class _MonsterName extends StatelessWidget {
           _monstersData.name!.toUpperCase(),
           style: TextStyle(color: Colors.white, fontSize: 24.0),
         ),
+
+        //CODIGO COMMON LOCATIONS
+        Container(
+          child: Column(
+            children: _monstersData.commonLocations!
+                .map(
+                  (locations) => Container(
+                    margin: EdgeInsets.only(top: 15.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          locations.nameLocation!.toUpperCase(),
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+
+        //---------------------//
       ],
     );
   }
