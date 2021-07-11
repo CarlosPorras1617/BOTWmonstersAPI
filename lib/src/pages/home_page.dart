@@ -14,12 +14,14 @@ class HomePage extends StatelessWidget {
         title: Text('Monsters BOTW'),
       ),
       body: Stack(
-        clipBehavior: Clip.none,
         children: [
+          _FondoCielo(),
+          _TriforceFondo(),
           FutureBuilder(
             future: monstersProvider.obtenerMonsters(),
             builder: (BuildContext context,
                 AsyncSnapshot<List<MonstersModel>> snap) {
+              final _mediaSize = MediaQuery.of(context).size;
               final monsters = snap.data;
               return Container(
                 height: double.infinity,
@@ -28,23 +30,27 @@ class HomePage extends StatelessWidget {
                   itemCount: monsters!.length,
                   itemBuilder: (BuildContext context, int i) {
                     final monstersData = monsters[i];
-                    return Container(
-                      width: 360,
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(170, 207, 193, 1)),
-                      child: Stack(
-                        children: [
-                          //_Fondo(),
-                          Center(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                _MonsterName(monstersData),
-                                _MonsterImage(monstersData),
-                              ],
+                    return GestureDetector(
+                      onTap: () {
+                        //send data
+                        Navigator.pushNamed(context, '/monstersInfo',
+                            arguments: monstersData);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: _mediaSize.width * 0.11),
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  _MonsterName(monstersData),
+                                  MonsterImage(monstersData),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -62,51 +68,34 @@ class HomePage extends StatelessWidget {
 class _Fondo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _mediaSize = MediaQuery.of(context).size;
     return Positioned(
-        bottom: -10,
+        bottom: _mediaSize.height * 0.001,
         child: Image.asset(
           'assets/paisaje.gif',
-          height: 220.0,
+          height: _mediaSize.height * 0.30,
           fit: BoxFit.cover,
         ));
   }
 }
 
-class _CategoryName extends StatelessWidget {
+class MonsterImage extends StatelessWidget {
   final MonstersModel _monstersData;
-  _CategoryName(this._monstersData);
+  MonsterImage(this._monstersData);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "Category:",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28.0),
-        ),
-        Text(
-          _monstersData.category!,
-          style: TextStyle(fontSize: 24.0),
-        ),
-      ],
-    );
-  }
-}
-
-class _MonsterImage extends StatelessWidget {
-  final MonstersModel _monstersData;
-  _MonsterImage(this._monstersData);
-  @override
-  Widget build(BuildContext context) {
+    final _mediaSize = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.only(top: 20.0, bottom: 50.0),
+      padding: EdgeInsets.only(
+          top: _mediaSize.height * 0.02, bottom: _mediaSize.height * 0.01),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
-        child: Image.network(
-          _monstersData.image!,
-          alignment: Alignment.center,
-          height: 300.0,
+        child: FadeInImage(
           fit: BoxFit.cover,
+          placeholder: AssetImage('assets/triforceLoading.gif'),
+          image: NetworkImage(
+            _monstersData.image!,
+          ),
         ),
       ),
     );
@@ -118,6 +107,7 @@ class _MonsterName extends StatelessWidget {
   _MonsterName(this._monstersData);
   @override
   Widget build(BuildContext context) {
+    final _mediaSize = MediaQuery.of(context).size;
     return Column(
       children: [
         Text(
@@ -126,37 +116,35 @@ class _MonsterName extends StatelessWidget {
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28.0),
         ),
         SizedBox(
-          height: 10.0,
+          height: _mediaSize.height * 0.02,
         ),
         Text(
           _monstersData.name!.toUpperCase(),
           style: TextStyle(color: Colors.white, fontSize: 24.0),
-        ),
-
-        //CODIGO COMMON LOCATIONS
-        Container(
-          child: Column(
-            children: _monstersData.commonLocations!
-                .map(
-                  (locations) => Container(
-                    margin: EdgeInsets.only(top: 15.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          locations.nameLocation!.toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-
-        //---------------------//
+        )
       ],
+    );
+  }
+}
+
+class _FondoCielo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(170, 207, 193, 1),
+      ),
+    );
+  }
+}
+
+class _TriforceFondo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: 0.4,
+      child: Image.asset('assets/triforce.png'),
     );
   }
 }

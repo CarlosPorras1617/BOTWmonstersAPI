@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class MonstersModel{
   String ? category;
   List<CommonLocations> ? commonLocations;
