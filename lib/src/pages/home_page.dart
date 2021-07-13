@@ -70,7 +70,7 @@ class _Fondo extends StatelessWidget {
   Widget build(BuildContext context) {
     final _mediaSize = MediaQuery.of(context).size;
     return Positioned(
-        bottom: _mediaSize.height * 0.001,
+        bottom: _mediaSize.height * 0.0,
         child: Image.asset(
           'assets/paisaje.gif',
           height: _mediaSize.height * 0.30,
